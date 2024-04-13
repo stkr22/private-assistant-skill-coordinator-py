@@ -1,0 +1,7 @@
+mqtt_server_host: localhost
+mqtt_server_port: 1883
+client_id: "skill_coordinator"
+certainty_topic: "assistant/coordinator/certainty"
+register_topic: "assistant/coordinator/register"
+registration_purge_interval: 600.0
+certainty_timeout: 1.0
