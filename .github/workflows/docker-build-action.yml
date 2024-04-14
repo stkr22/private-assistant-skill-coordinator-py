@@ -55,7 +55,7 @@ jobs:
 
       - name: Determine wheel filename
         id: wheel_name
-        run: echo "::set-output name=WHEEL_NAME::$(ls dist/*.whl)"
+        run: echo "::set-output name=WHEEL_NAME::$(basename $(ls dist/*.whl))"
 
       - name: get version
         run: echo 'TAG='${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
