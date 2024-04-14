@@ -1,4 +1,6 @@
+import os
 import pathlib
+import shutil
 from datetime import datetime
 from unittest.mock import MagicMock
 
@@ -9,6 +11,9 @@ from private_assistant_skill_coordinator import coordinator, messages
 # Fixture for setting up the Coordinator
 @pytest.fixture
 def test_coordinator():
+    if not os.path.exists("./local_config.yaml"):
+        # Copy the file
+        shutil.copy("./template.yaml", "./local_config.yaml")
     coord = coordinator.Coordinator(config_path=pathlib.Path("./local_config.yaml"))
     coord.client = MagicMock()  # Mock the MQTT client
     return coord
