@@ -53,6 +53,10 @@ jobs:
           name: package
           path: dist
 
+      - name: Determine wheel filename
+        id: wheel_name
+        run: echo "::set-output name=WHEEL_NAME::$(ls dist/*.whl)"
+
       - name: get version
         run: echo 'TAG='${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
 
@@ -79,3 +83,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            WHEEL_FILE=${{ steps.wheel_name.outputs.WHEEL_NAME }}
