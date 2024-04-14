@@ -127,7 +127,7 @@ class Coordinator:
             self.skill_registrations = {
                 k: v
                 for k, v in self.skill_registrations.items()
-                if now - v[1]
+                if now - v.registered_at
                 <= timedelta(seconds=self.config_obj.registration_purge_interval)
             }
         # Reschedule the purge operation

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "private-assistant-skill-coordinator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Coordinator for Modular Private Assistant: Manages skill-response certainties and orchestrates message processing via MQTT."
 authors = ["stkr22 <stkr22@github.com>"]
 readme = "README.md"
