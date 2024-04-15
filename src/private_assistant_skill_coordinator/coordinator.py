@@ -25,7 +25,9 @@ class CertaintyCollection(BaseModel):
 
     def select_highest_certainty(self) -> messages.SkillCertainty | None:
         if self.responses:
-            return max(self.responses, key=lambda c: c.certainty)
+            max_response = max(self.responses, key=lambda c: c.certainty)
+            if max_response.certainty > 0.0:
+                return max_response
         return None
 
 
