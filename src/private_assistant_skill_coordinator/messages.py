@@ -1,16 +1,7 @@
-import uuid
 from datetime import datetime
 
-from pydantic import BaseModel
+from private_assistant_commons import messages
 
 
-class SkillCertainty(BaseModel):
-    message_id: uuid.UUID
-    certainty: float
-    skill_id: str
-
-
-class SkillRegistration(BaseModel):
-    skill_id: str
-    feedback_topic: str
+class SkillRegistration(messages.SkillRegistration):
     registered_at: datetime = datetime.now()

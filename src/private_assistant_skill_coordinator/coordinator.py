@@ -6,6 +6,7 @@ from collections.abc import Callable
 from datetime import datetime, timedelta
 
 import paho.mqtt.client as mqtt
+from private_assistant_commons import messages as common_messages
 from pydantic import BaseModel, ConfigDict, ValidationError
 
 from private_assistant_skill_coordinator import config, messages
@@ -16,14 +17,14 @@ logger = logging.getLogger(__name__)
 class CertaintyCollection(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    responses: list[messages.SkillCertainty] = []
+    responses: list[common_messages.SkillCertainty] = []
     expected: int
     timer: threading.Timer
 
     def all_responses_received(self) -> bool:
         return len(self.responses) >= self.expected
 
-    def select_highest_certainty(self) -> messages.SkillCertainty | None:
+    def select_highest_certainty(self) -> common_messages.SkillCertainty | None:
         if self.responses:
             max_response = max(self.responses, key=lambda c: c.certainty)
             if max_response.certainty > 0.0:
@@ -49,7 +50,7 @@ class Coordinator:
         self.purge_timer.start()
 
     def mqtt_function(self) -> tuple[Callable, Callable]:
-        def on_connect(client: mqtt.Client, userdata, flags, rc: int, properties):
+        def on_connect(client: mqtt.Client, user_data, flags, rc: int, properties):
             logger.info("Connected with result code %s", rc)
             client.subscribe(
                 [
@@ -58,7 +59,7 @@ class Coordinator:
                 ]
             )
 
-        def on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage):
+        def on_message(client: mqtt.Client, user_data, msg: mqtt.MQTTMessage):
             logger.debug("Received message %s", msg)
             if msg.topic == self.config_obj.certainty_topic:
                 self.handle_certainty_message(msg.payload.decode("utf-8"))
@@ -69,8 +70,8 @@ class Coordinator:
 
     def handle_certainty_message(self, payload: str):
         try:
-            certainty: messages.SkillCertainty = (
-                messages.SkillCertainty.model_validate_json(payload)
+            certainty: common_messages.SkillCertainty = (
+                common_messages.SkillCertainty.model_validate_json(payload)
             )
             with self.lock:
                 if certainty.message_id not in self.certainties:
