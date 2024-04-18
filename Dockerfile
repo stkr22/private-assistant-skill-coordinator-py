@@ -17,4 +17,8 @@ WORKDIR /home/pythonuser
 
 USER pythonuser
 
-ENTRYPOINT [ "private-assistant-skill-coordinator", "template.yaml" ]
+ENV PRIVATE_ASSISTANT_CONFIG_PATH=template.yaml
+
+ENTRYPOINT ["private-assistant-skill-coordinator"]
+
+CMD ["${PRIVATE_ASSISTANT_CONFIG_PATH}"]
