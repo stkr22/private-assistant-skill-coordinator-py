@@ -19,7 +19,11 @@ app = typer.Typer()
 
 
 @app.command()
-def start_skill_coordinator(config_path: Annotated[pathlib.Path, typer.Argument()]):
+def start_skill_coordinator(
+    config_path: Annotated[
+        pathlib.Path, typer.Argument(envvar="PRIVATE_ASSISTANT_CONFIG_PATH")
+    ],
+):
     coordinator_obj = coordinator.Coordinator(config_path=config_path)
     coordinator_obj.run()
 

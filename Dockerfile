@@ -20,5 +20,3 @@ USER pythonuser
 ENV PRIVATE_ASSISTANT_CONFIG_PATH=template.yaml
 
 ENTRYPOINT ["private-assistant-skill-coordinator"]
-
-CMD ["$PRIVATE_ASSISTANT_CONFIG_PATH"]
